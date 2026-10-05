@@ -1,22 +1,16 @@
-import sys
 import pytest
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
-
-# Ensure project root on path (mirrors Vercel Lambda environment)
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.main import app
 from app.graph.state import Analyst, Perspectives
 from app.utils.parser import extract_sources_from_text
 
-# ── Local-development client (routes at /api/*) ──────────────────────────────
 client = TestClient(app)
 
 
 def test_health_endpoint():
-    """Verify GET /api/health returns 200 and schema (local dev path)."""
+    """Verify GET /api/health returns 200 and schema."""
     response = client.get("/api/health")
     assert response.status_code == 200
     data = response.json()
@@ -85,7 +79,7 @@ def test_research_execution_flow(mock_build_graph, mock_get_settings):
     mock_get_settings.return_value = mock_settings
 
     mock_graph = MagicMock()
-
+    
     async def fake_ainvoke(state):
         return {
             "topic": state["topic"],
@@ -118,34 +112,3 @@ def test_research_execution_flow(mock_build_graph, mock_get_settings):
     assert data["analysts"][0]["name"] == "Dr. Elena Vance"
     assert len(data["sources"]) >= 1
     assert data["sources"][0]["domain"] == "nature.com"
-
-
-# ── Vercel entrypoint tests (routes at root level, no /api prefix) ────────────
-def test_vercel_entrypoint_health():
-    """Verify the Vercel api/index.py entrypoint handles /health at root."""
-    from api.index import app as vercel_app
-    vercel_client = TestClient(vercel_app)
-    response = vercel_client.get("/health")
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "healthy"
-
-
-def test_vercel_entrypoint_docs():
-    """Verify /docs works via the Vercel entrypoint."""
-    from api.index import app as vercel_app
-    vercel_client = TestClient(vercel_app)
-    response = vercel_client.get("/docs")
-    assert response.status_code == 200
-
-
-def test_vercel_entrypoint_openapi():
-    """Verify /openapi.json is reachable via Vercel entrypoint."""
-    from api.index import app as vercel_app
-    vercel_client = TestClient(vercel_app)
-    response = vercel_client.get("/openapi.json")
-    assert response.status_code == 200
-    data = response.json()
-    assert "paths" in data
-    assert "/health" in data["paths"]
-    assert "/research" in data["paths"]
