@@ -35,22 +35,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register API routes
+# Register API routes at /api/* (for local development with uvicorn)
 app.include_router(api_router, prefix="/api")
 
-# Static files directory
+# Serve the frontend HTML at root — check both public/ and app/static/
+PUBLIC_DIR = Path(__file__).resolve().parent.parent / "public"
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
-if STATIC_DIR.exists():
-    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+FRONTEND_DIR = PUBLIC_DIR if PUBLIC_DIR.exists() else (STATIC_DIR if STATIC_DIR.exists() else None)
 
-    @app.get("/", include_in_schema=False)
-    async def serve_index():
-        return FileResponse(STATIC_DIR / "index.html")
-else:
-    @app.get("/")
-    async def root():
-        return {
-            "message": "DeepResearch API is online. Static UI folder not found.",
-            "docs": "/docs",
-        }
+if FRONTEND_DIR is not None:
+    if (FRONTEND_DIR / "index.html").exists():
+        @app.get("/", include_in_schema=False)
+        async def serve_index():
+            return FileResponse(FRONTEND_DIR / "index.html")
