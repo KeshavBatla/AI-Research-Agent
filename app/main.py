@@ -9,25 +9,6 @@ from fastapi.responses import FileResponse
 from app.config import get_settings
 from app.api.routes import router as api_router
 
-class VercelRewriteMiddleware:
-    def __init__(self, app):
-        self.app = app
-
-    async def __call__(self, scope, receive, send):
-        if scope["type"] == "http":
-            headers = dict(scope["headers"])
-            if b"x-vercel-original-url" in headers:
-                original_url = headers[b"x-vercel-original-url"].decode("utf-8")
-                if "?" in original_url:
-                    path, query = original_url.split("?", 1)
-                else:
-                    path = original_url
-                    query = ""
-                scope["path"] = path
-                scope["query_string"] = query.encode("utf-8")
-        await self.app(scope, receive, send)
-
-
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -73,5 +54,3 @@ else:
             "message": "DeepResearch API is online. Static UI folder not found.",
             "docs": "/docs",
         }
-
-app = VercelRewriteMiddleware(app)
