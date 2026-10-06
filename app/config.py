@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     TAVILY_API_KEY: Optional[str] = None
 
     # Model settings
-    MODEL_NAME: str = "gemini-2.5-flash"
+    MODEL_NAME: str = "gemini-3.1-flash-lite"
 
     # Server settings
     APP_ENV: str = "development"
@@ -21,8 +21,8 @@ class Settings(BaseSettings):
     PORT: int = 8000
 
     # Research settings
-    DEFAULT_MAX_ANALYSTS: int = 3
-    DEFAULT_MAX_TURNS: int = 2
+    DEFAULT_MAX_ANALYSTS: int = 2
+    DEFAULT_MAX_TURNS: int = 1
 
     model_config = SettingsConfigDict(
         env_file=".env",
