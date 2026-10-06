@@ -1,3 +1,5 @@
+Website: https://ai-research-agent-delta-two.vercel.app/
+
 <div align="center">
 
 # DeepResearch: Multi-Agent AI Research Assistant
@@ -5,8 +7,8 @@
 An autonomous, multi-perspective AI research system built with **LangGraph**, **Google Gemini**, **Tavily Search**, and **FastAPI**.
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![LangGraph](https://img.shields.io/badge/LangGraph-0.1+-000000?style=flat)](https://github.com/langchain-ai/langgraph)
+[![FastAPI](https://shields.io/badge/FastAPI-0.110+-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![LangGraph](https://shields.io/badge/LangGraph-0.1+-000000?style=flat)](https://github.com/langchain-ai/langgraph)
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
 
 </div>
@@ -56,7 +58,7 @@ Structured Response & Clean Web UI
 ## Features
 
 - **Multi-Perspective Analytical Planning**: Deconstructs questions across varied viewpoints and motives to avoid confirmation bias.
-- **Parallel Sub-Graph Interviews**: Uses LangGraph's dynamic `Send()` API to conduct concurrent interactive interviews between analysts and an expert grounded in retrieved context.
+- **Parallel Sub-Graph Interviews**: Uses LangGraph's dynamic `Send()` API to conduct concurrent interactive interviews between analysts and an expert grounded in retrieved knowledge.
 - **Hybrid Retrieval Engine**: Combines **Tavily Web Search** for current information with **Wikipedia** for fundamental encyclopedic grounding.
 - **Source Deduplication & Citations**: Tracks citation brackets `[1]`, `[2]` throughout memos and generates consolidated source lists with domain cards.
 - **Enterprise-Grade FastAPI Backend**: Structured Pydantic v2 validation, comprehensive error handling, and clean asynchronous endpoints.
