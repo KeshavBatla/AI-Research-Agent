@@ -12,7 +12,7 @@ class ResearchRequest(BaseModel):
         examples=["Impact of AI agents on modern software engineering"]
     )
     max_analysts: Optional[int] = Field(
-        default=3,
+        default=2,
         ge=1,
         le=5,
         description="Number of analyst personas to generate and interview."
