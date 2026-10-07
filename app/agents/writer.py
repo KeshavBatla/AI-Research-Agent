@@ -121,8 +121,12 @@ def write_section(state: InterviewState):
         [SystemMessage(content=system_message)]
         + [HumanMessage(content=f"Use this source to write your section: {context}")]
     )
-
-    return {"sections": [section.content]}
+    # Extract text from response
+    if isinstance(section.content, list):
+        section_text = section.content[0].get('text', '') if section.content else ''
+    else:
+        section_text = section.content
+    return {"sections": [section_text]}
 
 
 def write_report(state: ResearchGraphState):
@@ -140,8 +144,12 @@ def write_report(state: ResearchGraphState):
         [SystemMessage(content=system_message)]
         + [HumanMessage(content="Write a report based upon these memos.")]
     )
-
-    return {"content": report.content}
+    # Extract text from response
+    if isinstance(report.content, list):
+        text = report.content[0].get('text', '') if report.content else ''
+    else:
+        text = report.content
+    return {"content": text}
 
 
 def write_introduction(state: ResearchGraphState):
@@ -158,8 +166,12 @@ def write_introduction(state: ResearchGraphState):
     intro = llm.invoke(
         [instructions] + [HumanMessage(content="Write the report introduction")]
     )
-
-    return {"introduction": intro.content}
+    # Extract text from response
+    if isinstance(intro.content, list):
+        text = intro.content[0].get('text', '') if intro.content else ''
+    else:
+        text = intro.content
+    return {"introduction": text}
 
 
 def write_conclusion(state: ResearchGraphState):
@@ -176,8 +188,12 @@ def write_conclusion(state: ResearchGraphState):
     conclusion = llm.invoke(
         [instructions] + [HumanMessage(content="Write the report conclusion")]
     )
-
-    return {"conclusion": conclusion.content}
+    # Extract text from response
+    if isinstance(conclusion.content, list):
+        text = conclusion.content[0].get('text', '') if conclusion.content else ''
+    else:
+        text = conclusion.content
+    return {"conclusion": text}
 
 
 def finalize_report(state: ResearchGraphState):
