@@ -1014,5 +1014,14 @@
       URL.revokeObjectURL(url);
     }
   </script>
+  <script>
+    // Ensure default selection is 2 Perspectives (Fast) on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const analystsCountSelect = document.getElementById('analysts-count');
+      if (analystsCountSelect) {
+        analystsCountSelect.value = '2';
+      }
+    });
+  </script>
 </body>
 </html>
